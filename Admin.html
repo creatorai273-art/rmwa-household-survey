@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html><head><base target="_top"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--g:#174c3c;--g2:#21634e;--bg:#f3f6f4;--ink:#17231e;--mu:#64736b;--ln:#dce5df}
+*{box-sizing:border-box}body{margin:0;font-family:Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink)}.hidden{display:none!important}
+input{width:100%;padding:12px;border:1px solid #cbd8cf;border-radius:8px;font:inherit}input:focus{outline:none;border-color:var(--g2);box-shadow:0 0 0 3px #21634e24}
+.btn{border:0;border-radius:8px;padding:11px 16px;background:var(--g);color:#fff;font:700 14px Roboto;cursor:pointer}.btn.s{background:#e8f0eb;color:var(--g)}.btn:disabled{opacity:.6}
+#login{min-height:100vh;display:grid;grid-template-columns:1.1fr 1fr}
+.hero{background:linear-gradient(145deg,#0f3328,#21634e);color:#fff;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:40px;text-align:center}
+.hero img{width:110px;height:110px;border-radius:50%;background:#fff;padding:4px;box-shadow:0 8px 24px #0005}.hero h1{margin:20px 0 6px;font-size:30px}.hero p{opacity:.85;max-width:340px;line-height:1.6}
+.lbox{display:flex;align-items:center;justify-content:center;padding:24px;background:#fff}.lbox form{width:min(380px,100%)}.lbox h2{margin:0 0 6px;font-size:24px;color:var(--g)}.lbox label{display:block;font-size:13px;font-weight:500;margin:16px 0 6px}
+.err{background:#fff0f0;color:#922e2e;border:1px solid #efc4c4;padding:10px;border-radius:8px;font-size:13px;margin-top:12px}.ok{background:#e9f6ed;color:#1e6538;border-color:#bfe3c9}.warn{background:#fff6df;color:#745719;border-color:#f1e2b6}
+#app{display:grid;grid-template-columns:240px 1fr;min-height:100vh}
+aside{background:linear-gradient(180deg,#143f32,#0f3328);color:#fff;padding:18px 12px;position:sticky;top:0;height:100vh}aside .br{display:flex;gap:10px;align-items:center;padding:6px 8px 18px;font-weight:700}aside img{width:40px;height:40px;border-radius:50%;background:#fff;padding:2px}
+aside a{display:block;padding:11px 14px;border-radius:9px;color:#d5e6dd;cursor:pointer;font-size:14px;margin-bottom:3px}aside a:hover{background:#ffffff14}aside a.on{background:#fff;color:var(--g);font-weight:700}
+main{padding:22px;min-width:0}.top{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:18px;flex-wrap:wrap}.top h1{margin:0;font-size:24px;color:var(--g)}.chip{background:#fff;border:1px solid var(--ln);border-radius:20px;padding:6px 14px;font-size:13px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:12px;margin-bottom:16px}.kpi{background:#fff;border:1px solid var(--ln);border-radius:14px;padding:16px;box-shadow:0 4px 14px #183b290d;border-left:4px solid var(--g2)}.kpi span{font-size:12px;color:var(--mu)}.kpi b{display:block;font-size:26px;color:var(--g);margin-top:4px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:14px}.card{background:#fff;border:1px solid var(--ln);border-radius:14px;padding:18px;box-shadow:0 4px 14px #183b290d}.card h3{margin:0 0 12px;font-size:15px;color:var(--g)}
+.bar{display:grid;grid-template-columns:120px 1fr 40px;gap:8px;align-items:center;font-size:13px;margin:7px 0}.bar i{display:block;height:10px;border-radius:6px;background:#e8f0eb;overflow:hidden}.bar i u{display:block;height:100%;background:linear-gradient(90deg,#21634e,#3f9a78)}.bar em{font-style:normal;text-align:right;font-weight:700}
+.tw{overflow-x:auto}table.d{width:100%;border-collapse:collapse;font-size:13px}.d th{background:#174c3c;color:#fff;text-align:left;padding:9px;white-space:nowrap}.d td{padding:9px;border-bottom:1px solid var(--ln)}.d tr:hover td{background:#f6faf7}.d a{color:var(--g2);font-weight:700;cursor:pointer}
+.tools{display:flex;gap:10px;margin-bottom:12px;flex-wrap:wrap}.tools input{max-width:320px}.mu{color:var(--mu);font-size:13px}
+.rep{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}.rep .card{display:flex;flex-direction:column;gap:10px}.rep p{margin:0;color:var(--mu);font-size:13px;flex:1}
+.mb{position:fixed;inset:0;background:#071b13aa;display:flex;align-items:flex-start;justify-content:center;padding:20px;z-index:20;overflow:auto}.md{background:#fff;border-radius:14px;padding:22px;width:min(900px,100%)}
+#menu{display:none}@media(max-width:860px){#login{grid-template-columns:1fr}.hero{padding:28px}#app{grid-template-columns:1fr}aside{position:static;height:auto;display:flex;flex-wrap:wrap;gap:4px}aside .br{width:100%;padding-bottom:6px}aside a{margin:0;padding:8px 10px}}
+</style></head><body>
+<section id="login"><div class="hero"><img src="https://i.postimg.cc/k4WH4rYJ/Origional-Logo.png" alt="RMWA"><h1>RMWA Admin Portal</h1><p>Razal Memon Welfare Association<br>Household &amp; Family Survey management</p></div>
+<div class="lbox"><form onsubmit="doLogin(event)"><h2>Welcome back</h2><div class="mu">Sign in to continue</div>
+<label>Username</label><input id="u" autocomplete="username" required><label>Password</label><input id="p" type="password" autocomplete="current-password" required>
+<div id="le" class="err hidden"></div><button class="btn" id="lb" style="width:100%;margin-top:20px;padding:13px">Sign in</button></form></div></section>
+<div id="app" class="hidden"><aside><div class="br"><img src="https://i.postimg.cc/k4WH4rYJ/Origional-Logo.png" alt="">RMWA Admin</div><nav id="nav"></nav><a onclick="out()" style="margin-top:14px">Sign out</a></aside>
+<main><div class="top"><h1 id="ttl"></h1><span class="chip" id="who"></span></div><div id="msg" class="err hidden"></div><div id="view"></div></main></div>
+<div id="fam" class="mb hidden" onclick="if(event.target===this)this.classList.add('hidden')"><div class="md"><div class="tools"><button class="btn" id="fpdf">Download PDF</button><button class="btn s" onclick="fam.classList.add('hidden')">Close</button></div><div id="fb"></div></div></div>
+<script>
+let tok='',D=null,cur='dash',must=false,q='';
+const $=id=>document.getElementById(id),call=(f,...a)=>new Promise((ok,no)=>google.script.run.withSuccessHandler(ok).withFailureHandler(e=>no(new Error(e.message||e)))[f](...a));
+const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const num=n=>Number(n||0).toLocaleString('en-US');
+function note(t,c){const m=$('msg');m.textContent=t;m.className='err '+(c||'');if(!t)m.className='err hidden';}
+async function doLogin(e){e.preventDefault();const b=$('lb');b.disabled=true;b.textContent='Signing in…';$('le').className='err hidden';
+ try{const r=await call('login',$('u').value,$('p').value);tok=r.token;must=r.mustChange;$('who').textContent=r.username+' · '+r.role;$('login').classList.add('hidden');$('app').classList.remove('hidden');
+  if(must){go('set');note('Please set a new password to continue. The default password must be changed.','warn');}else{await load();go('dash');}}
+ catch(x){$('le').textContent=x.message;$('le').className='err';}finally{b.disabled=false;b.textContent='Sign in';}}
+async function load(){try{D=await call('getPortalData',tok);}catch(x){note(x.message);}}
+async function out(){try{await call('logout',tok);}catch(x){}tok='';D=null;$('app').classList.add('hidden');document.body.insertAdjacentHTML('beforeend','<p style="text-align:center;margin-top:30vh;color:#64736b">Signed out. Opening the survey form…</p>');try{window.top.location.href=await call('getSurveyUrl');}catch(x){location.reload();}}
+const PAGES=[['dash','Dashboard'],['hh','Households'],['emp','Employed'],['unemp','Unemployed'],['stu','Students'],['pat','Patients'],['rep','Reports'],['set','Settings']];
+function go(p){if(must&&p!=='set')return;cur=p;q='';$('ttl').textContent=PAGES.find(x=>x[0]===p)[1];if(p!=='set'||!must)note('');
+ $('nav').innerHTML=PAGES.map(x=>`<a class="${x[0]===p?'on':''}" onclick="go('${x[0]}')">${x[1]}</a>`).join('');render();}
+function bars(a,color){const t=Math.max(1,...a.map(x=>x[1]));return a.length?a.map(x=>`<div class="bar"><span>${esc(x[0])}</span><i><u style="width:${x[1]/t*100}%"></u></i><em>${num(x[1])}</em></div>`).join(''):'<div class="mu">No data yet</div>';}
+function pdf(t,a){return call('getReportPdf',tok,t,a||'').then(r=>{const b=atob(r.data),u=new Uint8Array(b.length);for(let i=0;i<b.length;i++)u[i]=b.charCodeAt(i);const l=document.createElement('a');l.href=URL.createObjectURL(new Blob([u],{type:'application/pdf'}));l.download=r.name;document.body.appendChild(l);l.click();l.remove();}).catch(x=>note(x.message));}
+async function dl(btn,t,a){const o=btn.textContent;btn.disabled=true;btn.textContent='Preparing PDF…';await pdf(t,a);btn.disabled=false;btn.textContent=o;}
+async function fam(id){$('fam').classList.remove('hidden');$('fb').textContent='Loading…';$('fpdf').onclick=function(){dl(this,'family',id);};try{$('fb').innerHTML=await call('getFamilyHtml',tok,id);}catch(x){$('fb').textContent=x.message;}}
+function tbl(h,rows){return `<div class="tw"><table class="d"><tr>${h.map(x=>`<th>${x}</th>`).join('')}</tr>${rows.slice(0,150).map(r=>'<tr>'+r.map(c=>`<td>${c&&c.h?c.h:esc(c)}</td>`).join('')+'</tr>').join('')||`<tr><td colspan="${h.length}">No records</td></tr>`}</table></div>${rows.length>150?`<p class="mu">Showing first 150 of ${rows.length}. Use search or download the PDF for the full list.</p>`:''}`;}
+const link=id=>({h:`<a onclick="fam('${esc(id)}')">${esc(id)}</a>`});
+const LISTS={
+ hh:{pdf:'households',h:['Household','Date','Village','Head','Father','Phone','Members','Income (PKR)'],rows:()=>D.households.map(h=>[link(h.id),h.date,h.village,h.head,h.father,h.phone,h.size,h.income])},
+ emp:{pdf:'employed',h:['Household','Name','Relation','Age','Head','Village','Phone','Details'],rows:()=>pp('Employed')},
+ unemp:{pdf:'unemployed',h:['Household','Name','Relation','Age','Head','Village','Phone','Details'],rows:()=>pp('Unemployed')},
+ stu:{pdf:'students',h:['Household','Name','Relation','Age','Head','Village','Phone','Class / institution / year'],rows:()=>pp('Student')},
+ pat:{pdf:'patients',h:['Household','Patient','Age','Disease','Type','Since','Cost / month','Needs help','Head','Village'],rows:()=>D.patients.map(p=>[link(p.hid),p.name,p.age,p.disease,p.type,p.since,num(p.cost),p.assist,p.head,p.village])}};
+const pp=c=>D.people.filter(p=>p.cat===c).map(p=>[link(p.hid),p.name,p.rel,p.age,p.head,p.village,p.phone,p.detail]);
+function render(){const v=$('view');if(cur==='set')return settings(v);if(!D){v.innerHTML='<div class="card">Loading…</div>';return;}
+ if(cur==='dash')return dash(v);if(cur==='rep')return reports(v);
+ const L=LISTS[cur],all=L.rows();v.innerHTML=`<div class="tools"><input id="sq" placeholder="Search…" oninput="q=this.value;list()" value="${esc(q)}" style="max-width:320px"><button class="btn" onclick="dl(this,'${L.pdf}')">Download PDF</button></div><div class="card" id="lt"></div>`;list();}
+function list(){const L=LISTS[cur],s=q.toLowerCase(),rows=L.rows().filter(r=>!s||r.map(c=>c&&c.h?c.h.replace(/<[^>]+>/g,''):c).join(' ').toLowerCase().includes(s));$('lt').innerHTML=`<div class="mu" style="margin-bottom:8px">${rows.length} record(s)</div>`+tbl(L.h,rows);}
+function dash(v){const S=D.stats,k=S.kpi,K=[['Households',k.households],['Total people',k.people],['Employed',k.employed],['Unemployed',k.unemployed],['Students',k.students],['Patients',k.patients],['Avg family size',k.avgFamily],['Needing help',k.assist]];
+ const C=(t,a)=>`<div class="card"><h3>${t}</h3>${bars(a)}</div>`;
+ v.innerHTML=`<div class="kpis">${K.map(x=>`<div class="kpi"><span>${x[0]}</span><b>${num(x[1])}</b></div>`).join('')}</div>
+ <div class="grid">${C('Households by village',S.villages)}${C('Employment status',S.employment)}${C('Gender (family members)',S.gender)}${C('Age groups (family members)',S.age)}${C('Blood groups',S.blood)}${C('Household income (PKR / month)',S.income)}${C('Assets owned (households)',S.assets)}${C('Livestock (total)',S.livestock)}${C('Top illnesses',S.diseases)}${C('Illness type',S.illType)}</div>
+ <p class="mu">Employment: a head is Employed if a job, business or occupation is filled in; members are classified by profession. Monthly medical cost: PKR ${num(k.medical)} · Total reported income: PKR ${num(k.income)}.</p>`;}
+function reports(v){const R=[['overall','Overall summary','Key figures, villages, employment, gender, age, blood groups, assets, livestock, income and illness.'],['households','Household list','All surveyed households with head, village and income.'],['employed','Employed','Everyone working: jobs, business owners and occupations.'],['unemployed','Unemployed','Persons without work.'],['students','Students','Class, institution and year.'],['patients','Patients','Illness, treatment cost and assistance needs.']];
+ v.innerHTML=`<div class="rep">${R.map(r=>`<div class="card"><h3>${r[1]}</h3><p>${r[2]}</p><button class="btn" onclick="dl(this,'${r[0]}')">Download PDF</button></div>`).join('')}<div class="card"><h3>Family report card</h3><p>Open Households and click a Household ID to view the card and download its PDF.</p><button class="btn s" onclick="go('hh')">Go to Households</button></div></div>`;}
+function settings(v){v.innerHTML=`<div class="card" style="max-width:460px"><h3>Change password</h3><label class="mu">Current password</label><input id="cp" type="password" autocomplete="current-password"><label class="mu" style="display:block;margin-top:12px">New password (8+ characters)</label><input id="np" type="password" autocomplete="new-password"><label class="mu" style="display:block;margin-top:12px">Confirm new password</label><input id="np2" type="password" autocomplete="new-password"><button class="btn" style="margin-top:16px" onclick="chg(this)">Update password</button></div>`;}
+async function chg(b){if($('np').value!==$('np2').value)return note('New passwords do not match.');b.disabled=true;try{await call('changePassword',tok,$('cp').value,$('np').value);const was=must;must=false;note('Password updated.','ok');$('cp').value=$('np').value=$('np2').value='';if(was){await load();go('dash');note('Password updated. Welcome to the dashboard.','ok');}}catch(x){note(x.message);}finally{b.disabled=false;}}
+</script></body></html>
