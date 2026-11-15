@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base target="_top">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Lateef&family=Noto+Naskh+Arabic:wght@400;500;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root{--green:#174c3c;--green2:#21634e;--bg:#f3f6f4;--ink:#17231e;--muted:#64736b;--line:#dce5df}
+    *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Roboto,Arial,sans-serif}
+    .top{background:var(--green);color:white;padding:18px max(18px,calc((100% - 1100px)/2));display:flex;align-items:center;justify-content:space-between;gap:12px}
+    .brand{font-weight:700;font-size:22px}.sub{font-size:12px;opacity:.85;margin-top:4px}.wrap{max-width:1100px;margin:24px auto;padding:0 16px}
+    .card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:20px;margin-bottom:16px;box-shadow:0 4px 16px #183b2910}
+    h1,h2,h3{margin:0 0 14px}h1{font-size:24px}h2{font-size:19px;color:var(--green)}h3{font-size:16px}
+    .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+    label{display:block;font-size:13px;font-weight:500;margin-bottom:6px;color:#34443b}input,select,textarea{width:100%;padding:11px 12px;border:1px solid #cbd8cf;border-radius:8px;font:inherit;background:white;color:var(--ink)}
+    textarea{min-height:72px;resize:vertical}.btn{border:0;border-radius:8px;padding:11px 16px;background:var(--green);color:white;font-weight:700;cursor:pointer}.btn.secondary{background:#e8f0eb;color:var(--green)}.btn.danger{background:#9b3434}
+    .actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}.muted{color:var(--muted);font-size:13px}.hidden{display:none!important}
+    .stat{background:#f5f9f6;border:1px solid var(--line);border-radius:10px;padding:14px}.stat b{font-size:25px;display:block;color:var(--green);margin-top:5px}
+    .section-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:12px}
+    .repeat{border:1px dashed #b9c9bf;border-radius:10px;padding:14px;margin:10px 0;background:#fbfdfb}.pill{font-size:12px;background:#e8f0eb;color:var(--green);padding:5px 9px;border-radius:20px}
+    .notice{padding:12px;border-radius:8px;background:#fff6df;color:#745719;font-size:13px;margin-bottom:12px}.success{background:#e9f6ed;color:#1e6538}.error{background:#fff0f0;color:#922e2e}
+    [dir=rtl] body,[dir=rtl] input,[dir=rtl] select,[dir=rtl] textarea,[dir=rtl] button{font-family:'Noto Naskh Arabic','Lateef',serif;font-size:17px;line-height:1.7}
+    [dir=rtl] label{font-size:16px} [dir=rtl] .top{direction:rtl}
+    .lang{max-width:150px}.admin-icon{width:34px;height:34px;border:1px solid #ffffff88;border-radius:50%;background:transparent;color:#fff;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center}.modal-backdrop{position:fixed;inset:0;background:#071b13aa;display:flex;align-items:center;justify-content:center;padding:16px;z-index:20}.modal{width:min(430px,100%);background:#fff;border-radius:14px;padding:22px;box-shadow:0 15px 50px #0004}.modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:14px}.honeypot{position:absolute;inset-inline-start:0;top:0;width:1px;height:1px;opacity:0;overflow:hidden;pointer-events:none}.table{width:100%;border-collapse:collapse}.table th,.table td{padding:9px;border-bottom:1px solid var(--line);text-align:left;font-size:13px}
+    @media(max-width:700px){.grid,.grid3{grid-template-columns:1fr}.top{padding:15px}.wrap{margin:14px auto}.card{padding:15px}}
+
+    /* ===== logo header, thank-you page, mobile polish ===== */
+    html,body{max-width:100%;overflow-x:hidden}
+    .top{flex-wrap:wrap}
+    .brandwrap{display:flex;align-items:center;gap:12px;min-width:0;flex:1 1 auto}
+    .logo{width:52px;height:52px;border-radius:50%;background:#fff;padding:2px;object-fit:contain;flex:0 0 auto;box-shadow:0 2px 8px #0003}
+    .brandtxt{min-width:0}.ctrls{display:flex;gap:10px;align-items:center}
+    .table th,.table td{text-align:start}
+    .tablewrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+    .thanks{text-align:center;padding:34px 20px;animation:thanksIn .5s ease both}
+    .thanks .tlogo{width:72px;height:72px;border-radius:50%;object-fit:contain;background:#fff;border:1px solid var(--line);padding:3px;margin-bottom:10px}
+    .check{width:76px;height:76px;margin:0 auto 14px;border-radius:50%;background:#e9f6ed;display:flex;align-items:center;justify-content:center;animation:checkPop .6s cubic-bezier(.2,.9,.3,1.3) .15s both}
+    .check svg{width:40px;height:40px;stroke:#1e6538;stroke-width:3.2;fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:40;stroke-dashoffset:40;animation:checkDraw .5s ease .55s forwards}
+    .thanks h2{font-size:26px;margin-bottom:10px}.thanks p{max-width:520px;margin:0 auto 14px;line-height:1.7;color:#34443b}
+    .refbox{display:inline-block;background:#f5f9f6;border:1px dashed #b9c9bf;border-radius:10px;padding:8px 16px;font-size:14px}
+    .refbox b{letter-spacing:1px;color:var(--green)}
+    @keyframes thanksIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+    @keyframes checkPop{from{transform:scale(.4);opacity:0}to{transform:scale(1);opacity:1}}
+    @keyframes checkDraw{to{stroke-dashoffset:0}}
+    @media(max-width:700px){
+      .brand{font-size:19px}.sub{font-size:11px;line-height:1.5}.logo{width:44px;height:44px}
+      input,select,textarea{font-size:16px;min-height:46px}
+      .btn{min-height:46px}
+      .section-head{flex-wrap:wrap}
+      .section-head .btn{width:100%}
+      #surveyForm>.btn,.thanks .btn,.actions .btn{width:100%}
+      .modal{padding:18px}
+      h1{font-size:21px}.thanks h2{font-size:22px}
+    }
+    @media(prefers-reduced-motion:reduce){.thanks,.check,.check svg{animation:none!important}.check svg{stroke-dashoffset:0}}
+
+    /* language filter: compact capsule; sub-groups inside a member */
+    header .ctrls select.lang{width:auto;max-width:none;min-height:0;padding:6px 28px 6px 14px;border-radius:999px;border:1px solid rgba(255,255,255,.55);background:rgba(255,255,255,.14) url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'><path d='M1 1l5 5 5-5' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/></svg>") no-repeat right 10px center;color:#fff;font-size:14px;font-weight:500;line-height:1.4;cursor:pointer;-webkit-appearance:none;appearance:none}
+    header .ctrls select.lang option{color:#17231e;background:#fff}
+    [dir=rtl] header .ctrls select.lang{padding:6px 14px 6px 28px;background-position:left 10px center}
+    header .ctrls .admin-icon{width:36px;height:36px;font-size:16px;flex:0 0 auto}
+    .pgroup{margin-top:12px;padding-top:12px;border-top:1px dashed #cfdcd3}
+    @media(max-width:700px){.top{flex-wrap:nowrap;gap:10px}.ctrls{gap:8px}header .ctrls select.lang{font-size:13px;padding:6px 26px 6px 12px}[dir=rtl] header .ctrls select.lang{padding:6px 12px 6px 26px}}
+
+    /* ===== final professional finish ===== */
+    body{-webkit-font-smoothing:antialiased}
+    .top{background:linear-gradient(135deg,#143f32 0%,#1f5f4b 100%);box-shadow:0 3px 14px #0b2b2033}
+    .card{border-radius:16px;box-shadow:0 6px 22px #183b2912}
+    .card>h2,.section-head>h2,#surveyForm>h3,#surveyForm>h2{display:flex;align-items:center;gap:10px}
+    .card>h2::before,.section-head>h2::before{content:"";width:4px;height:20px;border-radius:3px;background:linear-gradient(#21634e,#3f9a78);flex:0 0 auto}
+    .thanks>h2::before{display:none}
+    #surveyForm>h3{font-size:15px;color:#21634e;margin:22px 0 12px;padding-bottom:8px;border-bottom:1px solid var(--line)}
+    input,select,textarea{transition:border-color .15s ease,box-shadow .15s ease}
+    input:focus,select:focus,textarea:focus{outline:none;border-color:#21634e;box-shadow:0 0 0 3px #21634e24}
+    input::placeholder{color:#9aa9a1}
+    select:not(.lang){-webkit-appearance:none;appearance:none;background:#fff url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'><path d='M1 1l5 5 5-5' fill='none' stroke='%2364736b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/></svg>") no-repeat right 12px center;padding-right:34px}
+    [dir=rtl] select:not(.lang){background-position:left 12px center;padding-right:12px;padding-left:34px}
+    label{letter-spacing:.1px}
+    .btn{transition:background .15s ease,transform .1s ease,box-shadow .15s ease}
+    .btn:active{transform:translateY(1px)}
+    #surveyForm>.btn[type=submit]{display:block;width:100%;max-width:340px;margin:20px auto 4px;padding:14px 20px;font-size:16px;background:linear-gradient(135deg,#174c3c,#21634e);box-shadow:0 6px 16px #174c3c40}
+    #surveyForm>.btn[type=submit]:disabled{opacity:.7}
+    .notice{border:1px solid #f1e2b6}.notice.success{border-color:#bfe3c9}.notice.error{border-color:#efc4c4}
+    /* family member / patient cards */
+    #membersList,#patientsList{counter-reset:item}
+    .repeat{counter-increment:item;border:1px solid var(--line);border-radius:14px;padding:16px;margin:12px 0;background:#fff;box-shadow:0 2px 10px #183b290d}
+    .repeat .card-head{display:flex;align-items:center;gap:10px;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--line);color:#21634e}
+    .repeat .num{width:28px;height:28px;border-radius:50%;background:#174c3c;color:#fff;display:inline-flex;align-items:center;justify-content:center;font:700 14px Roboto,Arial,sans-serif;flex:0 0 auto}
+    .repeat .num::before{content:counter(item)}
+    .repeat .card-foot{display:flex;justify-content:flex-end;margin-top:16px;padding-top:12px;border-top:1px dashed #d5e0d9}
+    .btn-del{display:inline-flex;align-items:center;justify-content:center;gap:7px;background:#fff;color:#9b3434;border:1px solid #e3b9b9;border-radius:8px;padding:8px 16px;font:inherit;font-size:14px;font-weight:600;cursor:pointer;transition:background .15s ease}
+    .btn-del:hover{background:#fff0f0}
+    .btn-add{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;margin-top:12px;padding:13px;border:2px dashed #9fb8a8;border-radius:12px;background:#f6faf7;color:#174c3c;font:inherit;font-size:15px;font-weight:700;cursor:pointer;transition:background .15s ease,border-color .15s ease}
+    .btn-add:hover{background:#e8f0eb;border-color:#174c3c}
+    .btn-add .plus{font-size:22px;line-height:1;font-weight:500}
+    input[type=checkbox]{width:20px!important;height:20px;min-height:0!important;padding:0;accent-color:#174c3c;flex:0 0 auto;cursor:pointer}
+    .section-head label{display:inline-flex;align-items:center;gap:10px;margin:0!important;padding:9px 14px;border:1px solid var(--line);border-radius:10px;background:#f6faf7;cursor:pointer;font-weight:500}
+    @media(max-width:700px){.section-head label{width:100%}}
+    @media(max-width:700px){.btn-del{width:100%;padding:11px 16px}#surveyForm>.btn[type=submit]{max-width:none}}
+
+    /* household assets: Yes / No pills + mobile-phone type chips; CNIC / phone inputs */
+    input[data-fmt]{direction:ltr;letter-spacing:.5px}
+    [dir=rtl] input[data-fmt]{text-align:right}
+    .assets{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+    .asset{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 14px;border:1px solid var(--line);border-radius:12px;background:#fbfdfb}
+    .asset-name{font-weight:500;color:#34443b}
+    .yn{display:inline-flex;gap:6px;flex:0 0 auto}
+    .yn-opt{position:relative;margin:0!important;display:inline-block;cursor:pointer}
+    .yn-opt input{position:absolute;opacity:0;width:1px!important;height:1px!important;min-height:0!important;padding:0;pointer-events:none}
+    .yn-opt span{display:inline-block;min-width:54px;text-align:center;padding:6px 14px;border-radius:999px;border:1px solid #cbd8cf;background:#fff;color:#64736b;font-size:14px;font-weight:600;transition:all .15s ease}
+    .yn-opt input[value=yes]:checked+span{background:#174c3c;border-color:#174c3c;color:#fff}
+    .yn-opt input[value=no]:checked+span{background:#eef2ef;border-color:#9fb0a5;color:#34443b}
+    .yn-opt input:focus-visible+span,.chip input:focus-visible+span{box-shadow:0 0 0 3px #21634e33}
+    .mobile-types{margin-top:10px;padding:12px 14px;border:1px dashed #b9c9bf;border-radius:12px;background:#f6faf7}
+    .mt-title{font-size:13px;font-weight:600;color:#34443b;margin-bottom:8px}
+    .chips{display:flex;flex-wrap:wrap;gap:8px}
+    .chip{position:relative;margin:0!important;cursor:pointer}
+    .chips input[type=checkbox]{position:absolute;opacity:0;width:1px!important;height:1px!important;min-height:0!important;pointer-events:none}
+    .chip span{display:inline-block;padding:7px 16px;border-radius:999px;border:1px solid #cbd8cf;background:#fff;color:#34443b;font-size:14px;font-weight:600;transition:all .15s ease}
+    .chip input:checked+span{background:#174c3c;border-color:#174c3c;color:#fff}
+    @media(max-width:700px){.assets{grid-template-columns:1fr}}
+
+    /* date field: shows 13-Jan-2026, tap opens the calendar */
+    .datebox{position:relative}
+    .datebox .date-text{direction:ltr;cursor:pointer;background:#fff;padding-inline-end:42px;font-weight:500;letter-spacing:.3px}
+    [dir=rtl] .datebox .date-text{text-align:right}
+    .datebox:focus-within .date-text{border-color:#21634e;box-shadow:0 0 0 3px #21634e24}
+    .datebox .date-text::placeholder{color:#9aa9a1;letter-spacing:.3px}
+    .datebox .date-native{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer;z-index:2;min-height:0;padding:0}
+    .datebox .cal{position:absolute;top:50%;transform:translateY(-50%);inset-inline-end:13px;color:#21634e;pointer-events:none}
+  </style>
+</head>
+<body>
+<header class="top">
+  <div class="brandwrap"><img class="logo" src="https://i.postimg.cc/k4WH4rYJ/Origional-Logo.png" alt="RMWA logo"><div class="brandtxt"><div class="brand">RMWA</div><div class="sub" data-i18n="subtitle">Razal Memon Welfare Association · Household Survey</div></div></div>
+  <div class="ctrls"><select id="lang" class="lang" onchange="setLanguage(this.value)"><option value="sd">سنڌي</option><option value="en">English</option><option value="ur">اردو</option></select><button id="adminIcon" class="admin-icon" title="Admin login" aria-label="Admin login" onclick="openAdminLogin()">🔒</button></div>
+</header>
+<main class="wrap">
+  <div id="message" class="notice hidden"></div>
+  <div id="loginView" class="modal-backdrop hidden" onclick="if(event.target===this)closeAdminLogin()">
+    <section class="modal">
+      <div class="section-head"><h1 data-i18n="loginTitle">Admin Login</h1><button class="btn secondary" type="button" onclick="closeAdminLogin()">✕</button></div>
+      <p class="muted" data-i18n="loginHelp">Admin access only. Sign in with your RMWA account.</p>
+      <div style="margin:14px 0"><label data-i18n="username">Username</label><input id="username" autocomplete="username"></div>
+      <div style="margin:14px 0"><label data-i18n="password">Password</label><input id="password" type="password" autocomplete="current-password"></div>
+      <div class="modal-actions"><button class="btn secondary" onclick="closeAdminLogin()" type="button" data-i18n="cancel">Cancel</button><button class="btn" onclick="login()" data-i18n="signIn">Sign in</button></div>
+    </section>
+  </div>
+
+  <section id="appView">
+    <div id="adminDashboard" class="card hidden">
+      <div class="section-head"><div><h1 data-i18n="dashboard">Dashboard</h1><div class="muted"><span data-i18n="signedIn">Signed in as</span> <b id="who"></b> · <span id="role"></span></div></div><span class="pill">RMWA 2026</span></div>
+      <div class="grid3">
+        <div class="stat"><span data-i18n="households">Households</span><b id="sHouseholds">0</b></div>
+        <div class="stat"><span data-i18n="members">Family members</span><b id="sMembers">0</b></div>
+        <div class="stat"><span data-i18n="patients">Patients</span><b id="sPatients">0</b></div>
+      </div>
+      <div class="actions"><button class="btn secondary" onclick="logout()" data-i18n="signOut">Sign out</button></div>
+    </div>
+    <div class="card" id="surveyCard">
+      <h2 data-i18n="newSurvey">Public household survey</h2>
+      <p class="muted" data-i18n="publicIntro">Please complete this form to submit household information to RMWA.</p>
+      <form id="surveyForm" onsubmit="saveSurvey(event)"><div class="honeypot" aria-hidden="true"><label>Leave this field empty<input id="website" tabindex="-1" autocomplete="off"></label></div>
+        <h3 data-i18n="surveyDetails">Survey details</h3>
+        <div class="grid">
+          <div><label data-i18n="date">Survey date</label><div class="datebox"><input type="text" id="surveyDateText" class="date-text" readonly tabindex="-1" aria-hidden="true" placeholder="DD-Mon-YYYY"><input id="surveyDate" type="date" required class="date-native" aria-label="Survey date"><svg class="cal" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/></svg></div></div>
+          <div><label data-i18n="village">Village / area *</label><input id="village" required></div>
+          <div><label data-i18n="headName">Household head name *</label><input id="headName" required></div>
+          <div><label data-i18n="fatherName">Father's name</label><input id="fatherName"></div>
+          <div><label data-i18n="cnic">CNIC (optional)</label><input id="cnic" inputmode="numeric" data-fmt="cnic" maxlength="15" placeholder="00000-0000000-0" autocomplete="off"></div>
+          <div><label data-i18n="phone">Phone number</label><input id="phone" inputmode="numeric" data-fmt="phone" maxlength="12" placeholder="0000-0000000" autocomplete="off"></div>
+          <div><label data-i18n="blood">Blood group</label><select id="bloodGroup"></select></div>
+          <div><label data-i18n="education">Education</label><input id="education"></div>
+          <div><label data-i18n="educationYear">Education year</label><input id="educationYear" type="number"></div>
+          <div><label data-i18n="institution">Educational institution</label><input id="educationInstitute"></div>
+          <div><label data-i18n="hasJob">Has a job?</label><select id="hasJob"><option value="no" data-i18n="no">No</option><option value="yes" data-i18n="yes">Yes</option></select></div>
+          <div><label data-i18n="jobDetails">Job / designation</label><input id="jobDetails"></div>
+          <div><label data-i18n="jobSince">Job since</label><div class="datebox"><input type="text" class="date-text" readonly tabindex="-1" aria-hidden="true" placeholder="DD-Mon-YYYY"><input id="jobSince" type="date" class="date-native" aria-label="Job since"><svg class="cal" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/></svg></div></div>
+          <div><label data-i18n="jobLocation">Workplace</label><input id="jobLocation"></div>
+          <div><label data-i18n="department">Department</label><input id="department"></div>
+          <div><label data-i18n="occupation">Occupation / profession</label><input id="occupation"></div>
+          <div><label data-i18n="businessName">Business name</label><input id="businessName"></div>
+          <div><label data-i18n="businessLocation">Business location</label><input id="businessLocation"></div>
+          <div><label data-i18n="monthlyIncome">Monthly income (PKR)</label><input id="monthlyIncome" type="number" inputmode="numeric" min="0"></div>
+          <div><label data-i18n="land">Agricultural land (acres)</label><input id="landAcres" type="number" min="0" step="0.01"></div>
+          <div><label data-i18n="crops">Crops</label><input id="crops"></div>
+          <div><label data-i18n="orchards">Orchards</label><input id="orchards"></div>
+        </div>
+        <h3 style="margin-top:20px" data-i18n="livestock">Livestock / animals</h3>
+        <div class="grid3">
+          <div><label data-i18n="buffaloes">Buffaloes</label><input id="buffaloes" type="number" min="0" value="0"></div>
+          <div><label data-i18n="goats">Goats</label><input id="goats" type="number" min="0" value="0"></div>
+          <div><label data-i18n="cows">Cows</label><input id="cows" type="number" min="0" value="0"></div>
+          <div><label data-i18n="bulls">Bulls / oxen</label><input id="bulls" type="number" min="0" value="0"></div>
+          <div><label data-i18n="camels">Camels</label><input id="camels" type="number" min="0" value="0"></div>
+          <div><label data-i18n="donkeysDogs">Donkeys / dogs</label><input id="donkeysDogs" type="number" min="0" value="0"></div>
+          <div><label data-i18n="chickens">Chickens</label><input id="chickens" type="number" min="0" value="0"></div>
+          <div><label data-i18n="pigeons">Pigeons</label><input id="pigeons" type="number" min="0" value="0"></div>
+          <div><label data-i18n="otherBirds">Other birds</label><input id="otherBirds" type="number" min="0" value="0"></div>
+        </div>
+        <div style="margin-top:10px"><label data-i18n="livestockNotes">Other livestock notes</label><textarea id="livestockNotes"></textarea></div>
+
+        <h3 style="margin-top:22px" data-i18n="assetsTitle">Household assets</h3>
+        <div class="assets">
+          <div class="asset"><span class="asset-name" data-i18n="aTV">TV</span><div class="yn"><label class="yn-opt"><input type="radio" name="asset_tv" value="yes"><span data-i18n="yes">Yes</span></label><label class="yn-opt"><input type="radio" name="asset_tv" value="no" checked><span data-i18n="no">No</span></label></div></div>
+          <div class="asset"><span class="asset-name" data-i18n="aWash">Washing machine</span><div class="yn"><label class="yn-opt"><input type="radio" name="asset_wash" value="yes"><span data-i18n="yes">Yes</span></label><label class="yn-opt"><input type="radio" name="asset_wash" value="no" checked><span data-i18n="no">No</span></label></div></div>
+          <div class="asset"><span class="asset-name" data-i18n="aSew">Sewing machine (Silai)</span><div class="yn"><label class="yn-opt"><input type="radio" name="asset_sew" value="yes"><span data-i18n="yes">Yes</span></label><label class="yn-opt"><input type="radio" name="asset_sew" value="no" checked><span data-i18n="no">No</span></label></div></div>
+          <div class="asset"><span class="asset-name" data-i18n="aSolar">Solar panel</span><div class="yn"><label class="yn-opt"><input type="radio" name="asset_solar" value="yes"><span data-i18n="yes">Yes</span></label><label class="yn-opt"><input type="radio" name="asset_solar" value="no" checked><span data-i18n="no">No</span></label></div></div>
+          <div class="asset"><span class="asset-name" data-i18n="aLaptop">Laptop</span><div class="yn"><label class="yn-opt"><input type="radio" name="asset_laptop" value="yes"><span data-i18n="yes">Yes</span></label><label class="yn-opt"><input type="radio" name="asset_laptop" value="no" checked><span data-i18n="no">No</span></label></div></div>
+          <div class="asset"><span class="asset-name" data-i18n="aMobile">Mobile phone</span><div class="yn"><label class="yn-opt"><input type="radio" name="asset_mobile" value="yes" onchange="mobileToggle()"><span data-i18n="yes">Yes</span></label><label class="yn-opt"><input type="radio" name="asset_mobile" value="no" checked onchange="mobileToggle()"><span data-i18n="no">No</span></label></div></div>
+        </div>
+        <div id="mobileTypes" class="mobile-types hidden"><div class="mt-title" data-i18n="mobileType">Type of mobile phone</div><div class="chips">
+          <label class="chip"><input type="checkbox" name="mobtype" value="Simple"><span data-i18n="mobSimple">Simple</span></label>
+          <label class="chip"><input type="checkbox" name="mobtype" value="Android"><span data-i18n="mobAndroid">Android</span></label>
+          <label class="chip"><input type="checkbox" name="mobtype" value="iPhone"><span data-i18n="mobIphone">iPhone</span></label>
+        </div></div>
+
+        <div class="section-head" style="margin-top:24px"><h2 data-i18n="familyMembers">Family members</h2></div>
+        <div id="membersList"></div>
+        <button type="button" class="btn-add" onclick="addMember()"><span class="plus" aria-hidden="true">+</span><span data-i18n="addMember">Add family member</span></button>
+
+        <div class="section-head" style="margin-top:24px"><h2 data-i18n="health">Family health information</h2><label style="margin:0"><input id="hasIllness" type="checkbox" style="width:auto"> <span data-i18n="anyIllness">Anyone in household ill?</span></label></div>
+        <div id="patientsArea" class="hidden"><div id="patientsList"></div><button type="button" class="btn-add" onclick="addPatient()"><span class="plus" aria-hidden="true">+</span><span data-i18n="addPatient">Add patient</span></button></div>
+
+        <div class="grid" style="margin-top:18px">
+          <div><label data-i18n="respondent">Respondent name</label><input id="respondentName"></div>
+          <div><label data-i18n="consent">Respondent consent *</label><select id="consent" required><option value="" data-i18n="select">Select</option><option value="yes" data-i18n="yes">Yes</option><option value="no" data-i18n="no">No</option></select></div>
+        </div>
+        <p class="notice" data-i18n="privacy">Collect only necessary information. Explain the purpose and restrict access to CNIC and health information.</p>
+        <button class="btn" type="submit" data-i18n="saveSurvey">Save survey</button>
+      </form>
+    </div>
+    <div id="thankYou" class="card thanks hidden" role="status" aria-live="polite">
+      <img class="tlogo" src="https://i.postimg.cc/k4WH4rYJ/Origional-Logo.png" alt="RMWA logo">
+      <div class="check"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M9 21l8 8 14-17"/></svg></div>
+      <h2 data-i18n="thankTitle">Thank you!</h2>
+      <p data-i18n="thankText">Thank you for giving your valuable time and completing this survey. Your information has been saved with RMWA.</p>
+      <div class="refbox"><span data-i18n="refLabel">Reference ID</span>: <b id="refId"></b></div>
+      <div class="actions" style="justify-content:center;margin-top:20px"><button class="btn" type="button" onclick="submitAnother()" data-i18n="another">Submit another response</button></div>
+    </div>
+    <div id="adminSearch" class="card hidden">
+      <h2 data-i18n="search">Search household records</h2>
+      <div class="grid"><input id="searchQuery" placeholder="Search by family name, village or ID" data-i18n-ph="searchPh"><button class="btn" onclick="searchRecords()" data-i18n="searchBtn">Search</button></div>
+      <div id="searchResults"></div>
+    </div>
+    <div id="adminPanel" class="card hidden">
+      <h2 data-i18n="manageSurveyors">Manage surveyors</h2>
+      <div class="grid"><div><label data-i18n="newUsername">New surveyor username</label><input id="newUsername"></div><div><label data-i18n="newPassword">Temporary password (12+ characters)</label><input id="newPassword" type="password"></div></div>
+      <div class="actions"><button class="btn" onclick="createSurveyor()" data-i18n="createAccount">Create surveyor account</button><button class="btn secondary" onclick="openDatabase()" data-i18n="database">Open private database</button></div>
+    </div>
+  </section>
+</main>
+<script>
+const T={
+en:{subtitle:'Razal Memon Welfare Association · Household Survey',publicIntro:'Please complete this form to submit household information to RMWA.',signOut:'Sign out',loginTitle:'Admin Login',loginHelp:'Admin access only. Sign in with your RMWA account.',username:'Username',password:'Password',signIn:'Sign in',dashboard:'Dashboard',signedIn:'Signed in as',households:'Households',members:'Family members',patients:'Patients',newSurvey:'New household survey',surveyDetails:'Survey details',date:'Survey date',village:'Village / area *',headName:'Household head name *',fatherName:"Father's name",cnic:'CNIC (optional)',phone:'Phone number',blood:'Blood group',education:'Education',educationYear:'Education year',institution:'Educational institution',hasJob:'Has a job?',jobDetails:'Job / designation',jobSince:'Job since',jobLocation:'Workplace',department:'Department',occupation:'Occupation / profession',businessName:'Business name',businessLocation:'Business location',land:'Agricultural land (acres)',crops:'Crops',orchards:'Orchards',livestock:'Livestock / animals',buffaloes:'Buffaloes',goats:'Goats',cows:'Cows',bulls:'Bulls / oxen',camels:'Camels',donkeysDogs:'Donkeys / dogs',chickens:'Chickens',pigeons:'Pigeons',otherBirds:'Other birds',livestockNotes:'Other livestock notes',familyMembers:'Family members',addMember:'Add family member',health:'Family health information',anyIllness:'Anyone in household ill?',addPatient:'Add patient',respondent:'Respondent name',consent:'Respondent consent *',privacy:'Collect only necessary information. Explain the purpose and restrict access to CNIC and health information.',saveSurvey:'Save survey',search:'Search household records',searchBtn:'Search',manageSurveyors:'Manage surveyors',newUsername:'New surveyor username',newPassword:'Temporary password (12+ characters)',createAccount:'Create surveyor account',database:'Open private database'},
+sd:{subtitle:'رزل ميمڻ ويلفيئر ايسوسيئيشن · گهريلو سروي',publicIntro:'مهرباني ڪري RMWA کي گهريلو معلومات موڪلڻ لاءِ هي فارم ڀريو.',signOut:'لاگ آئوٽ',loginTitle:'ايڊمن لاگ ان',loginHelp:'صرف ايڊمن لاءِ. پنهنجو RMWA اڪائونٽ استعمال ڪريو.',username:'يوزر نالو',password:'پاسورڊ',signIn:'لاگ ان',dashboard:'ڊيش بورڊ',signedIn:'لاگ ان ٿيل',households:'گهر',members:'گهر جا ڀاتي',patients:'مريض',newSurvey:'نئون گهريلو سروي',surveyDetails:'سروي جا تفصيل',date:'سروي جي تاريخ',village:'ڳوٺ / علائقو *',headName:'گهر جي سربراهه جو نالو *',fatherName:'والد جو نالو',cnic:'شناختي ڪارڊ (اختياري)',phone:'فون نمبر',blood:'بلڊ گروپ',education:'تعليم',educationYear:'تعليم جو سال',institution:'تعليمي ادارو',hasJob:'ڇا نوڪري آهي؟',jobDetails:'نوڪري / عهدو',jobSince:'نوڪري ڪڏهن کان؟',jobLocation:'ڪم جي جاءِ',department:'ڊپارٽمينٽ',occupation:'ڌنڌو / پيشو',businessName:'ڪاروبار جو نالو',businessLocation:'ڪاروبار جي جاءِ',land:'زرعي زمين (ايڪڙ)',crops:'فصلون',orchards:'باغ',livestock:'مال مويشي / جانور',buffaloes:'مينهون',goats:'ٻڪريون',cows:'ڳئون',bulls:'ڏاند',camels:'اٺ',donkeysDogs:'گڏهه / ڪتا',chickens:'ڪڪڙيون',pigeons:'ڪبوتر',otherBirds:'ٻيا پکي',livestockNotes:'ٻين جانورن جا تفصيل',familyMembers:'گهر جا ڀاتي',addMember:'گهر جو ڀاتي شامل ڪريو',health:'گهر جي صحت بابت معلومات',anyIllness:'ڇا گهر ۾ ڪو بيمار آهي؟',addPatient:'مريض شامل ڪريو',respondent:'معلومات ڏيندڙ جو نالو',consent:'رضامندي *',privacy:'صرف ضروري معلومات گڏ ڪريو. مقصد واضح ڪريو ۽ شناختي ڪارڊ ۽ صحت جي معلومات تائين رسائي محدود رکو.',saveSurvey:'سروي محفوظ ڪريو',search:'گهرن جا رڪارڊ ڳوليو',searchBtn:'ڳوليو',manageSurveyors:'سروي ڪندڙن جا اڪائونٽ',newUsername:'نئون يوزر نالو',newPassword:'عارضي پاسورڊ (گهٽ ۾ گهٽ 12 اکر)',createAccount:'اڪائونٽ ٺاهيو',database:'خانگي ڊيٽابيس کوليو'},
+ur:{subtitle:'رزل میمن ویلفیئر ایسوسی ایشن · گھریلو سروے',publicIntro:'RMWA کو گھرانے کی معلومات بھیجنے کے لیے یہ فارم پُر کریں۔',signOut:'لاگ آؤٹ',loginTitle:'ایڈمن لاگ اِن',loginHelp:'صرف ایڈمن کے لیے۔ اپنا RMWA اکاؤنٹ استعمال کریں۔',username:'یوزر نیم',password:'پاس ورڈ',signIn:'لاگ اِن',dashboard:'ڈیش بورڈ',signedIn:'لاگ اِن صارف',households:'گھرانے',members:'گھر کے افراد',patients:'مریض',newSurvey:'نیا گھریلو سروے',surveyDetails:'سروے کی تفصیلات',date:'سروے کی تاریخ',village:'گاؤں / علاقہ *',headName:'گھر کے سربراہ کا نام *',fatherName:'والد کا نام',cnic:'شناختی کارڈ (اختیاری)',phone:'فون نمبر',blood:'بلڈ گروپ',education:'تعلیم',educationYear:'تعلیم کا سال',institution:'تعلیمی ادارہ',hasJob:'کیا ملازمت ہے؟',jobDetails:'ملازمت / عہدہ',jobSince:'ملازمت کب سے؟',jobLocation:'کام کی جگہ',department:'محکمہ',occupation:'پیشہ / کام',businessName:'کاروبار کا نام',businessLocation:'کاروبار کی جگہ',land:'زرعی زمین (ایکڑ)',crops:'فصلیں',orchards:'باغات',livestock:'مویشی / جانور',buffaloes:'بھینسیں',goats:'بکریاں',cows:'گائیں',bulls:'بیل',camels:'اونٹ',donkeysDogs:'گدھے / کتے',chickens:'مرغیاں',pigeons:'کبوتر',otherBirds:'دوسرے پرندے',livestockNotes:'دیگر جانوروں کی تفصیل',familyMembers:'گھر کے افراد',addMember:'گھر کا فرد شامل کریں',health:'گھر کی صحت کی معلومات',anyIllness:'کیا گھر میں کوئی بیمار ہے؟',addPatient:'مریض شامل کریں',respondent:'معلومات دینے والے کا نام',consent:'رضامندی *',privacy:'صرف ضروری معلومات جمع کریں۔ مقصد واضح کریں اور شناختی کارڈ اور صحت کی معلومات تک رسائی محدود رکھیں۔',saveSurvey:'سروے محفوظ کریں',search:'گھرانوں کا ریکارڈ تلاش کریں',searchBtn:'تلاش',manageSurveyors:'سروے کنندگان کے اکاؤنٹس',newUsername:'نیا یوزر نیم',newPassword:'عارضی پاس ورڈ (کم از کم 12 حروف)',createAccount:'اکاؤنٹ بنائیں',database:'نجی ڈیٹابیس کھولیں'}
+};
+let token='',role='',lang='sd';
+const R={
+en:{member:'Family member',patient:'Patient record',remove:'Delete',name:'Name *',relationship:'Relationship',age:'Age',cnic:'CNIC',phone:'Phone / WhatsApp',gender:'Gender',education:'Education / class',educationYear:'Education year',institution:'Institution',male:'Male',female:'Female',other:'Other',disease:'Disease / illness *',since:'Illness since (date)',illnessType:'Illness type',temporary:'Temporary',chronic:'Chronic',unsure:'Not sure',treatment:'Treatment place',expense:'Monthly expense (PKR)',payer:'Who pays?',assistance:'Needs assistance?',details:'Assistance details',notes:'Other notes',select:'Select'},
+sd:{member:'گهر جو ڀاتي',patient:'بيمار ڀاتي جو رڪارڊ',remove:'ختم ڪريو',name:'نالو *',relationship:'رشتو',age:'عمر',cnic:'شناختي ڪارڊ',phone:'فون / واٽس اپ',gender:'جنس',education:'تعليم / ڪلاس',educationYear:'تعليم جو سال',institution:'ادارو',male:'مرد',female:'عورت',other:'ٻيو',disease:'بيماري *',since:'بيماري ڪڏهن کان؟ (تاريخ)',illnessType:'بيماري جو قسم',temporary:'عارضي',chronic:'دائمي',unsure:'معلوم ناهي',treatment:'علاج جي جاءِ',expense:'ماهوار خرچ (روپيا)',payer:'خرچ ڪير ڀري ٿو؟',assistance:'مدد جي ضرورت آهي؟',details:'مدد جا تفصيل',notes:'وڌيڪ نوٽس',select:'چونڊيو'},
+ur:{member:'گھر کا فرد',patient:'مریض کا ریکارڈ',remove:'حذف کریں',name:'نام *',relationship:'رشتہ',age:'عمر',cnic:'شناختی کارڈ',phone:'فون / واٹس ایپ',gender:'جنس',education:'تعلیم / جماعت',educationYear:'تعلیم کا سال',institution:'ادارہ',male:'مرد',female:'عورت',other:'دیگر',disease:'بیماری *',since:'بیماری کب سے؟ (تاریخ)',illnessType:'بیماری کی نوعیت',temporary:'عارضی',chronic:'دائمی',unsure:'معلوم نہیں',treatment:'علاج کی جگہ',expense:'ماہانہ خرچ (روپے)',payer:'خرچ کون ادا کرتا ہے؟',assistance:'مدد کی ضرورت ہے؟',details:'مدد کی تفصیل',notes:'مزید نوٹس',select:'منتخب کریں'}
+};
+const X={
+en:{yes:'Yes',no:'No',cancel:'Cancel',thankTitle:'Thank you!',thankText:'Thank you for giving your valuable time and completing this survey. Your information has been saved with RMWA.',refLabel:'Reference ID',another:'Submit another response',saving:'Saving…',consentNo:'Survey cannot be saved without recorded respondent consent.',needPatient:'Add at least one patient record, or untick the illness question.',searchPh:'Search by family name, village or ID',noResults:'No matching records found.',thId:'Household ID',thHead:'Head name',thVillage:'Village',thDate:'Date'},
+sd:{yes:'ها',no:'نه',cancel:'رد ڪريو',thankTitle:'توهان جي مهرباني!',thankText:'پنهنجو قيمتي وقت ڏيڻ ۽ سروي ڀرڻ لاءِ توهان جا تمام گهڻا ٿورائتا آهيون. توهان جي معلومات RMWA وٽ محفوظ ٿي وئي آهي.',refLabel:'حوالو نمبر',another:'ٻيو جواب موڪليو',saving:'محفوظ ٿي رهيو آهي…',consentNo:'رضامندي کان سواءِ سروي محفوظ نٿو ٿي سگهي.',needPatient:'گهٽ ۾ گهٽ هڪ مريض جو رڪارڊ شامل ڪريو، يا بيماري واري خاني مان نشان هٽايو.',searchPh:'خاندان جي نالي، ڳوٺ يا ID سان ڳوليو',noResults:'ڪو رڪارڊ ڪونه مليو.',thId:'گهر جو ID',thHead:'سربراهه جو نالو',thVillage:'ڳوٺ',thDate:'تاريخ'},
+ur:{yes:'ہاں',no:'نہیں',cancel:'منسوخ کریں',thankTitle:'آپ کا شکریہ!',thankText:'اپنا قیمتی وقت دینے اور سروے مکمل کرنے کا بہت شکریہ۔ آپ کی معلومات RMWA کے پاس محفوظ ہو گئی ہیں۔',refLabel:'حوالہ نمبر',another:'ایک اور جواب بھیجیں',saving:'محفوظ ہو رہا ہے…',consentNo:'رضامندی کے بغیر سروے محفوظ نہیں ہو سکتا۔',needPatient:'کم از کم ایک مریض کا ریکارڈ شامل کریں، یا بیماری کے خانے سے نشان ہٹا دیں۔',searchPh:'خاندان کے نام، گاؤں یا ID سے تلاش کریں',noResults:'کوئی ریکارڈ نہیں ملا۔',thId:'گھر کا ID',thHead:'سربراہ کا نام',thVillage:'گاؤں',thDate:'تاریخ'}
+};
+const X3={
+en:{assetsTitle:'Household assets',aTV:'TV',aWash:'Washing machine',aSew:'Sewing machine (Silai)',aSolar:'Solar panel',aLaptop:'Laptop',aMobile:'Mobile phone',mobileType:'Type of mobile phone',mobSimple:'Simple',mobAndroid:'Android',mobIphone:'iPhone',r_bloodUnknown:'Not confirmed',cnicBad:'CNIC must be 13 digits: 00000-0000000-0',phoneBad:'Phone must be 11 digits: 0000-0000000'},
+sd:{assetsTitle:'گهريلو اثاثا',aTV:'ٽي وي',aWash:'واشنگ مشين',aSew:'سلائي مشين',aSolar:'سولر پينل',aLaptop:'ليپ ٽاپ',aMobile:'موبائل فون',mobileType:'موبائل فون جو قسم',mobSimple:'سادو',mobAndroid:'اينڊرائيڊ',mobIphone:'آئي فون',r_bloodUnknown:'معلوم ناهي',cnicBad:'شناختي ڪارڊ 13 انگن جو هجڻ گهرجي: 00000-0000000-0',phoneBad:'فون نمبر 11 انگن جو هجڻ گهرجي: 0000-0000000'},
+ur:{assetsTitle:'گھریلو اثاثے',aTV:'ٹی وی',aWash:'واشنگ مشین',aSew:'سلائی مشین',aSolar:'سولر پینل',aLaptop:'لیپ ٹاپ',aMobile:'موبائل فون',mobileType:'موبائل فون کی قسم',mobSimple:'سادہ',mobAndroid:'اینڈرائیڈ',mobIphone:'آئی فون',r_bloodUnknown:'معلوم نہیں',cnicBad:'شناختی کارڈ 13 ہندسوں کا ہونا چاہیے: 00000-0000000-0',phoneBad:'فون نمبر 11 ہندسوں کا ہونا چاہیے: 0000-0000000'}
+};
+const X2={
+en:{monthlyIncome:'Monthly income (PKR)',select:'Select',r_bloodGroup:'Blood group',r_profession:'Profession',r_student:'Student',r_govJob:'Government Job',r_privJob:'Private Job',r_unemployed:'Unemployed',r_businessOwner:'Business Owner',r_department:'Department',r_designation:'Designation',r_bps:'Pay scale (BPS)',r_class:'Education / class',r_admissionYear:'Admission year',r_institutionName:'Institution',r_businessName:'Business name'},
+sd:{monthlyIncome:'ماهوار آمدني (روپيا)',select:'چونڊيو',r_bloodGroup:'بلڊ گروپ',r_profession:'پيشو',r_student:'شاگرد',r_govJob:'سرڪاري نوڪري',r_privJob:'خانگي نوڪري',r_unemployed:'بيروزگار',r_businessOwner:'ڪاروبار جو مالڪ',r_department:'ڊپارٽمينٽ',r_designation:'عهدو',r_bps:'اسڪيل (BPS)',r_class:'تعليم / ڪلاس',r_admissionYear:'داخلا جو سال',r_institutionName:'تعليمي ادارو',r_businessName:'ڪاروبار جو نالو'},
+ur:{monthlyIncome:'ماہانہ آمدنی (روپے)',select:'منتخب کریں',r_bloodGroup:'بلڈ گروپ',r_profession:'پیشہ',r_student:'طالب علم',r_govJob:'سرکاری ملازمت',r_privJob:'نجی ملازمت',r_unemployed:'بے روزگار',r_businessOwner:'کاروبار کا مالک',r_department:'محکمہ',r_designation:'عہدہ',r_bps:'اسکیل (BPS)',r_class:'تعلیم / جماعت',r_admissionYear:'داخلے کا سال',r_institutionName:'تعلیمی ادارہ',r_businessName:'کاروبار کا نام'}
+};
+['en','sd','ur'].forEach(l=>{Object.keys(R[l]).forEach(k=>{T[l]['r_'+k]=R[l][k];});Object.assign(T[l],X[l],X2[l],X3[l]);});
+function tr(k){return (T[lang]&&T[lang][k])||T.en[k]||k;}
+function msg(s,type=''){const e=document.getElementById('message');e.textContent=s;e.className='notice '+type;}
+function clearMsg(){document.getElementById('message').className='notice hidden';}
+function call(fn,...args){return new Promise((resolve,reject)=>google.script.run.withSuccessHandler(resolve).withFailureHandler(e=>reject(new Error(e.message||e)))[fn](...args));}
+function setLanguage(l){lang=l;document.getElementById('lang').value=l;document.documentElement.lang=l;document.documentElement.dir=l==='en'?'ltr':'rtl';document.querySelectorAll('[data-i18n]').forEach(e=>{const k=e.dataset.i18n;if(T[l][k])e.textContent=T[l][k];});document.querySelectorAll('[data-i18n-ph]').forEach(e=>{const k=e.dataset.i18nPh;if(T[l][k])e.placeholder=T[l][k];});}
+function openAdminLogin(){call('getAdminUrl').then(u=>{window.top.location.href=u;}).catch(e=>msg(e.message,'error'));}
+function closeAdminLogin(){document.getElementById('loginView').classList.add('hidden');}
+async function login(){clearMsg();try{const r=await call('login',document.getElementById('username').value,document.getElementById('password').value);token=r.token;role=r.role;closeAdminLogin();document.getElementById('who').textContent=r.username;document.getElementById('role').textContent=r.role;document.getElementById('adminDashboard').classList.remove('hidden');document.getElementById('adminSearch').classList.remove('hidden');document.getElementById('adminPanel').classList.toggle('hidden',role!=='admin');await refreshDashboard();}catch(e){msg(e.message,'error');}}
+async function logout(){try{await call('logout',token);}catch(e){}token='';role='';document.getElementById('adminDashboard').classList.add('hidden');document.getElementById('adminSearch').classList.add('hidden');document.getElementById('adminPanel').classList.add('hidden');}
+async function refreshDashboard(){try{const d=await call('getDashboard',token);sHouseholds.textContent=d.households;sMembers.textContent=d.members;sPatients.textContent=d.patients;}catch(e){msg(e.message,'error');}}
+const MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+function fmtDate(iso){const m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(iso||'');return m?m[3]+'-'+MON[+m[2]-1]+'-'+m[1]:'';}
+function syncDates(){document.querySelectorAll('.datebox').forEach(b=>{const n=b.querySelector('.date-native'),t=b.querySelector('.date-text');if(n&&t)t.value=fmtDate(n.value);});}
+function syncDateText(){syncDates();}
+function dateBox(attrs){return `<div class="datebox"><input type="text" class="date-text" readonly tabindex="-1" aria-hidden="true" placeholder="DD-Mon-YYYY"><input type="date" class="date-native" ${attrs}><svg class="cal" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/></svg></div>`;}
+function applyDateMax(){const t=localISO();document.querySelectorAll('.date-native').forEach(n=>{n.max=t;});}
+['input','change'].forEach(ev=>document.addEventListener(ev,e=>{if(e.target.classList&&e.target.classList.contains('date-native'))syncDates();}));
+document.addEventListener('click',e=>{const n=e.target;if(n.classList&&n.classList.contains('date-native')){try{n.showPicker&&n.showPicker();}catch(x){}}});
+function localISO(){const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
+function val(id){return document.getElementById(id).value;}
+function genderOpts(){return `<option value="" data-i18n="r_select">${tr('r_select')}</option><option value="Male" data-i18n="r_male">${tr('r_male')}</option><option value="Female" data-i18n="r_female">${tr('r_female')}</option><option value="Other" data-i18n="r_other">${tr('r_other')}</option>`;}
+function bloodOpts(){return `<option value="" data-i18n="r_select">${tr('r_select')}</option>`+['A+','A-','B+','B-','AB+','AB-','O+','O-'].map(g=>`<option value="${g}">${g}</option>`).join('')+`<option value="Not known" data-i18n="r_bloodUnknown">${tr('r_bloodUnknown')}</option>`;}
+function profOpts(){const o=[['Student','r_student'],['Government Job','r_govJob'],['Private Job','r_privJob'],['Unemployed','r_unemployed'],['Business Owner','r_businessOwner']];return `<option value="" data-i18n="r_select">${tr('r_select')}</option>`+o.map(x=>`<option value="${x[0]}" data-i18n="${x[1]}">${tr(x[1])}</option>`).join('');}
+function bpsOpts(){let o=`<option value="" data-i18n="r_select">${tr('r_select')}</option>`;for(let i=1;i<=21;i++)o+=`<option value="BPS-${i}">BPS-${i}</option>`;return o;}
+function delFoot(cls){return `<div class="card-foot"><button type="button" class="btn-del" onclick="this.closest('.${cls}').remove()"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14M10 11v6M14 11v6"/></svg><span data-i18n="r_remove">${tr('r_remove')}</span></button></div>`;}
+function L(k){return `<label data-i18n="r_${k}">${tr('r_'+k)}</label>`;}
+function profChange(sel){const m=sel.closest('.member'),v=sel.value;const show={student:v==='Student',job:v==='Government Job'||v==='Private Job',bps:v==='Government Job',business:v==='Business Owner'};m.querySelectorAll('[data-g]').forEach(g=>{const on=show[g.dataset.g];g.classList.toggle('hidden',!on);if(!on)g.querySelectorAll('input,select').forEach(i=>i.value='');});}
+function addMember(){const d=document.createElement('div');d.className='repeat member';d.innerHTML=`<div class="card-head"><span class="num"></span><b data-i18n="r_member">${tr('r_member')}</b></div>
+<div class="grid3"><div>${L('name')}<input data-f="name" required></div><div>${L('relationship')}<input data-f="relationship"></div><div>${L('age')}<input data-f="age" type="number" inputmode="numeric" min="0" max="120"></div><div>${L('gender')}<select data-f="gender">${genderOpts()}</select></div><div>${L('cnic')}<input data-f="cnic" inputmode="numeric" data-fmt="cnic" maxlength="15" placeholder="00000-0000000-0" autocomplete="off"></div><div>${L('phone')}<input data-f="phone" inputmode="numeric" data-fmt="phone" maxlength="12" placeholder="0000-0000000" autocomplete="off"></div><div>${L('bloodGroup')}<select data-f="bloodGroup">${bloodOpts()}</select></div><div>${L('profession')}<select data-f="profession" onchange="profChange(this)">${profOpts()}</select></div></div>
+<div class="grid3 pgroup hidden" data-g="student"><div>${L('class')}<input data-f="education"></div><div>${L('admissionYear')}<input data-f="educationYear" type="number" inputmode="numeric"></div><div>${L('institutionName')}<input data-f="institution"></div></div>
+<div class="grid3 pgroup hidden" data-g="job"><div>${L('department')}<input data-f="department"></div><div>${L('designation')}<input data-f="designation"></div><div class="hidden" data-g="bps">${L('bps')}<select data-f="bpsScale">${bpsOpts()}</select></div></div>
+<div class="grid3 pgroup hidden" data-g="business"><div>${L('businessName')}<input data-f="businessName"></div></div>${delFoot('member')}`;document.getElementById('membersList').appendChild(d);}
+document.getElementById('hasIllness').addEventListener('change',e=>{document.getElementById('patientsArea').classList.toggle('hidden',!e.target.checked);if(e.target.checked&&!document.querySelector('.patient'))addPatient();});
+function addPatient(){const d=document.createElement('div');d.className='repeat patient';d.innerHTML=`<div class="card-head"><span class="num"></span><b data-i18n="r_patient">${tr('r_patient')}</b></div><div class="grid3"><div>${L('name')}<input data-p="name" required></div><div><label><span data-i18n="r_age">${tr('r_age')}</span> *</label><input data-p="age" type="number" inputmode="numeric" min="0" max="120" required></div><div>${L('gender')}<select data-p="gender">${genderOpts()}</select></div><div>${L('relationship')}<input data-p="relationship"></div><div>${L('disease')}<input data-p="disease" required></div><div>${L('since')}${dateBox('data-p="illnessSince"')}</div><div>${L('illnessType')}<select data-p="illnessType"><option value="" data-i18n="r_select">${tr('r_select')}</option><option value="Temporary" data-i18n="r_temporary">${tr('r_temporary')}</option><option value="Chronic" data-i18n="r_chronic">${tr('r_chronic')}</option><option value="Not sure" data-i18n="r_unsure">${tr('r_unsure')}</option></select></div><div>${L('treatment')}<input data-p="treatmentPlace"></div><div>${L('expense')}<input data-p="monthlyCost" type="number" inputmode="numeric" min="0"></div><div>${L('payer')}<input data-p="expensePayer"></div><div>${L('assistance')}<select data-p="needsAssistance"><option value="no" data-i18n="no">${tr('no')}</option><option value="yes" data-i18n="yes">${tr('yes')}</option></select></div><div>${L('details')}<input data-p="assistanceDetails"></div><div>${L('notes')}<input data-p="notes"></div></div>${delFoot('patient')}`;document.getElementById('patientsList').appendChild(d);applyDateMax();}
+
+// Auto-format CNIC (00000-0000000-0) and phone (0000-0000000) while typing
+document.addEventListener('input',function(e){const t=e.target;if(!t||!t.dataset||!t.dataset.fmt)return;const d=t.value.replace(/\D/g,'');let v;
+if(t.dataset.fmt==='cnic'){const x=d.slice(0,13);v=x.length>12?x.slice(0,5)+'-'+x.slice(5,12)+'-'+x.slice(12):x.length>5?x.slice(0,5)+'-'+x.slice(5):x;t.value=v;t.setCustomValidity(!x||x.length===13?'':tr('cnicBad'));}
+else{const x=d.slice(0,11);v=x.length>4?x.slice(0,4)+'-'+x.slice(4):x;t.value=v;t.setCustomValidity(!x||x.length===11?'':tr('phoneBad'));}});
+function mobileToggle(){const yes=document.querySelector('input[name=asset_mobile]:checked').value==='yes';document.getElementById('mobileTypes').classList.toggle('hidden',!yes);if(!yes)document.querySelectorAll('input[name=mobtype]').forEach(c=>c.checked=false);}
+function radioVal(n){const r=document.querySelector(`input[name=${n}]:checked`);return r?r.value:'no';}
+function assetValues(){const yes=radioVal('asset_mobile')==='yes';return{hasTV:radioVal('asset_tv'),hasWashingMachine:radioVal('asset_wash'),hasSewingMachine:radioVal('asset_sew'),hasSolarPanel:radioVal('asset_solar'),hasLaptop:radioVal('asset_laptop'),hasMobile:yes?'yes':'no',mobileTypes:yes?[...document.querySelectorAll('input[name=mobtype]:checked')].map(c=>c.value).join(', '):''};}
+function collectRepeats(selector,prefix){return [...document.querySelectorAll(selector)].map(el=>{const o={};el.querySelectorAll(`[data-${prefix}]`).forEach(i=>o[i.dataset[prefix]]=i.value);return o;}).filter(o=>Object.values(o).some(Boolean));}
+async function saveSurvey(ev){ev.preventDefault();clearMsg();const consent=val('consent');if(consent!=='yes'){msg(tr('consentNo'),'error');return;}const hasIllness=document.getElementById('hasIllness').checked;const patients=hasIllness?collectRepeats('.patient','p'):[];if(hasIllness&&!patients.length){msg(tr('needPatient'),'error');return;}
+const ids=['fatherName','cnic','phone','bloodGroup','education','educationYear','educationInstitute','hasJob','jobDetails','jobSince','jobLocation','department','occupation','businessName','businessLocation','landAcres','monthlyIncome','crops','orchards','buffaloes','goats','cows','bulls','camels','donkeysDogs','chickens','pigeons','otherBirds','livestockNotes'];
+const household={};ids.forEach(k=>household[k]=val(k));Object.assign(household,assetValues());
+const data={surveyDate:val('surveyDate'),village:val('village'),headName:val('headName'),household,hasIllness:hasIllness?'yes':'no',members:collectRepeats('.member','f'),patients,consent,respondentName:val('respondentName')};
+const btn=document.querySelector('#surveyForm button[type=submit]');btn.disabled=true;const old=btn.textContent;btn.textContent=tr('saving');
+try{data.website=val('website');const r=await call('submitPublicSurvey',data);
+document.getElementById('refId').textContent=r.householdId;
+resetSurveyForm();
+document.getElementById('surveyCard').classList.add('hidden');
+document.getElementById('thankYou').classList.remove('hidden');
+window.scrollTo({top:0,behavior:'smooth'});
+if(token)await refreshDashboard();}catch(e){msg(e.message,'error');window.scrollTo({top:0,behavior:'smooth'});}finally{btn.disabled=false;btn.textContent=tr('saveSurvey');}}
+function resetSurveyForm(){document.getElementById('surveyForm').reset();document.querySelectorAll('[data-fmt]').forEach(i=>i.setCustomValidity(''));mobileToggle();document.getElementById('membersList').innerHTML='';document.getElementById('patientsList').innerHTML='';document.getElementById('patientsArea').classList.add('hidden');document.getElementById('surveyDate').value=localISO();syncDateText();addMember();}
+function submitAnother(){clearMsg();document.getElementById('thankYou').classList.add('hidden');document.getElementById('surveyCard').classList.remove('hidden');window.scrollTo({top:0,behavior:'smooth'});}
+async function searchRecords(){try{const rows=await call('searchHouseholds',token,val('searchQuery'));const el=document.getElementById('searchResults');if(!rows.length){el.textContent=tr('noResults');return;}el.innerHTML='<div class="tablewrap"><table class="table"><tr><th>'+tr('thId')+'</th><th>'+tr('thHead')+'</th><th>'+tr('thVillage')+'</th><th>'+tr('thDate')+'</th></tr>'+rows.map(r=>`<tr><td>${escapeHtml(r.id)}</td><td>${escapeHtml(r.name)}</td><td>${escapeHtml(r.village)}</td><td>${escapeHtml(r.date)}</td></tr>`).join('')+'</table></div>';}catch(e){msg(e.message,'error');}}
+function escapeHtml(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+async function createSurveyor(){try{const r=await call('createSurveyor',token,val('newUsername'),val('newPassword'));msg(r.message,'success');document.getElementById('newUsername').value='';document.getElementById('newPassword').value='';}catch(e){msg(e.message,'error');}}
+async function openDatabase(){try{const u=await call('getSpreadsheetLink',token);window.open(u,'_blank');}catch(e){msg(e.message,'error');}}
+document.getElementById('bloodGroup').innerHTML=bloodOpts();
+setLanguage('sd');
+document.getElementById('surveyDate').value=localISO();applyDateMax();syncDates();
+addMember();
+</script>
+</body></html>
